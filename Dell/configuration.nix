@@ -11,6 +11,8 @@
       ./neovim.nix
       ./virtual.nix
       ./nur.nix
+      ./home.nix 
+      <home-manager/nixos>
     ];
 
   # Bootloader.
@@ -85,7 +87,7 @@
   users.users.cpb = {
     isNormalUser = true;
     description = "Caleb P. Bradley";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "docker" "networkmanager" "wheel" "video" ];
     packages = with pkgs; [
       bitwarden
       firefox
@@ -101,8 +103,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -113,16 +113,28 @@
      enableSSHSupport = true;
    };
 
-  # List services that you want to enable:
+  # Sway config options
+  programs.light.enable = true;
 
+  # List services that you want to enable:
+  security.polkit.enable = true;
   # Enable the OpenSSH daemon.
    services.openssh.enable = true;
 
   # Open ports in the firewall.
-   networking.firewall.allowedTCPPorts = [ 22 80 ];
-   networking.firewall.allowedUDPPorts = [ 3389 22 80 ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 80 ];
+    allowedUDPPorts = [ 3389 22 80 ];
+  };
+
+  # AutoUpgrade
+  system.autoUpgrade = {
+    enable = true;
+    channel = "https://nixos.org/channels/nixos-23.05"; 
+  };
+  # Enable sway
+  programs.sway.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
