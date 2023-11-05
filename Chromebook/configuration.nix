@@ -11,6 +11,8 @@
       ./gnome.nix
       ./neovim.nix
       ./nur.nix
+      ./steam.nix
+      ./virtual.nix
     ];
 
   # Bootloader.
@@ -57,13 +59,6 @@
     layout = "us";
     xkbVariant = "";
   };
-  
-  # Enable Sway
-  programs.sway = {
-  enable = true;
-  };
-  # Enable desktop for wlroot 
-  xdg.portal.wlr.enable = true;
 
   # Enable CUPS to print documents.
   #services.printing.enable = false;
@@ -88,18 +83,11 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
   
-  # Enable steamplay & Steam
-  programs.steam = {
-  enable = true;
-  remotePlay.openFirewall = true; 
-  dedicatedServer.openFirewall = true;
-  };
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kyni = {
     isNormalUser = true;
     description = "Caleb P. Bradley";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "docker " "networkmanager" "wheel" ];
     packages = with pkgs; [
 	bitwarden
 	firefox
@@ -120,13 +108,10 @@
 	obsidian
 	sakura
 	remmina
-	steam
 	steam-run
 	steamcmd
 	wget
   ];
-
-  virtualisation.waydroid.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -147,7 +132,11 @@
   allowedUDPPorts = [ 3389 22 80];
   allowedTCPPorts = [ 22 80]; };
 
-  #networking.firewall.allowed = true;
+  # AutoUpgrade
+  system.autoUpgrade = {
+    enable = true;
+    channel = "https://nixos.org/channels/nixos-23.05";
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

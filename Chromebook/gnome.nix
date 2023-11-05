@@ -11,6 +11,9 @@ environment.systemPackages = with pkgs; [
 	gnome.gnome-tweaks
 	gnomeExtensions.arcmenu
 	gnomeExtensions.gesture-improvements
+	gnomeExtensions.blur-my-shell
+	gnomeExtensions.vitals
+	gnomeExtensions.just-perfection
 ];
 
 environment.gnome.excludePackages = with pkgs; [
