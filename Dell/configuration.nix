@@ -11,8 +11,8 @@
       ./neovim.nix
       ./virtual.nix
       ./nur.nix
-      ./home.nix 
-      <home-manager/nixos>
+      #./home.nix 
+      #<home-manager/nixos>
     ];
 
   # Bootloader.
@@ -91,11 +91,15 @@
     packages = with pkgs; [
       bitwarden
       firefox
+      fish
       thunderbird
       remmina
       sakura
     ];
+    shell = "/nix/store/1iz6178ar7d15sgr3lw5l7r7g8s1m7v3-system-path/bin/fish";
   };
+
+  programs.fish.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -112,10 +116,7 @@
      enable = true;
      enableSSHSupport = true;
    };
-
-  # Sway config options
-  programs.light.enable = true;
-
+ 
   # List services that you want to enable:
   security.polkit.enable = true;
   # Enable the OpenSSH daemon.
@@ -133,8 +134,6 @@
     enable = true;
     channel = "https://nixos.org/channels/nixos-23.05"; 
   };
-  # Enable sway
-  programs.sway.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
