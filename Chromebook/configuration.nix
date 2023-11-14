@@ -90,6 +90,7 @@
     extraGroups = [ "docker " "networkmanager" "wheel" ];
     packages = with pkgs; [
 	bitwarden
+	fish
 	firefox
 	thunderbird
     ];
@@ -136,7 +137,7 @@
   # AutoUpgrade
   system.autoUpgrade = {
     enable = true;
-    channel = "https://nixos.org/channels/nixos-23.05";
+    channel = "https://nixos.org/channels/nixos-unstable";
   };
 
   # This value determines the NixOS release from which the default
