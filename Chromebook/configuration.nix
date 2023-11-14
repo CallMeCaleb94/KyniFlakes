@@ -93,6 +93,7 @@
 	firefox
 	thunderbird
     ];
+    shell = "/nix/store/nj1rpyhfnfa78fbna8s2cs4fs4rl5v42-system-path/bin/fish";
   };
 
   # Enable fish
