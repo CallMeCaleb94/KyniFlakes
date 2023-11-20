@@ -7,6 +7,7 @@ environment.gnome.excludePackages = with pkgs; [
 	gnome-connections
 	gnome.gnome-calculator
 	geany
+	gnome.geary
 	gnome.totem
 	gnome-photos
 	gnome.simple-scan
@@ -28,7 +29,6 @@ environment.systemPackages = with pkgs; [
 	gnome.gnome-tweaks
 	gnomeExtensions.arcmenu
 	gnomeExtensions.gesture-improvements
-	gnomeExtensions.paperwm
 ];
 
 services.gnome.gnome-remote-desktop.enable = true;

@@ -94,7 +94,7 @@
 	firefox
 	thunderbird
     ];
-    shell = "/nix/store/nj1rpyhfnfa78fbna8s2cs4fs4rl5v42-system-path/bin/fish";
+    shell = "${pkgs.fish}/bin/fish";
   };
 
   # Enable fish
@@ -110,17 +110,17 @@
 	obsidian
 	sakura
 	remmina
-	steam-run
-	steamcmd
 	wget
+  vscode-fhs
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-   programs.gnupg.agent = {
- 	enable = true;
-	enableSSHSupport = true;
+  programs.gnupg.agent = {
+ 	  enable = true;
+	  enableSSHSupport = true;
+    pinentryFlavor = "gnome3"
    };
 
   # List services that you want to enable:
@@ -139,6 +139,14 @@
     enable = true;
     channel = "https://nixos.org/channels/nixos-unstable";
   };
+
+  # Automatic Garbage Collection
+  nix.gc = {
+      automatic = true;
+      dates = "weekly"
+      options = "-d"
+      persistent = true;
+  }
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
