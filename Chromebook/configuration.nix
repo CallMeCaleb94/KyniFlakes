@@ -90,9 +90,11 @@
     extraGroups = [ "docker " "networkmanager" "wheel" ];
     packages = with pkgs; [
 	bitwarden
+	fish
 	firefox
 	thunderbird
     ];
+    shell = "${pkgs.fish}/bin/fish";
   };
 
   # Enable fish
@@ -108,17 +110,17 @@
 	obsidian
 	sakura
 	remmina
-	steam-run
-	steamcmd
 	wget
+  vscode-fhs
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-   programs.gnupg.agent = {
- 	enable = true;
-	enableSSHSupport = true;
+  programs.gnupg.agent = {
+ 	  enable = true;
+	  enableSSHSupport = true;
+    pinentryFlavor = "gnome3"
    };
 
   # List services that you want to enable:
@@ -135,8 +137,16 @@
   # AutoUpgrade
   system.autoUpgrade = {
     enable = true;
-    channel = "https://nixos.org/channels/nixos-23.05";
+    channel = "https://nixos.org/channels/nixos-unstable";
   };
+
+  # Automatic Garbage Collection
+  nix.gc = {
+      automatic = true;
+      dates = "weekly"
+      options = "-d"
+      persistent = true;
+  }
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

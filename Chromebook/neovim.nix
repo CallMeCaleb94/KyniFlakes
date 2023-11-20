@@ -2,16 +2,18 @@
 
 {
 environment.systemPackages = with pkgs; [
-  bottom
+  	bottom
+	gcc
 	gdu
-	git
+	gitFull
 	lazygit
 	nerdfonts
 	neovim
 	nodejs_18
-  python3Full
+  	python3Full
 	ripgrep
-  wl-clipboard
+ 	wl-clipboard
+	xclip
 ];
 
 }

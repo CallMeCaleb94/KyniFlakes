@@ -2,8 +2,26 @@
 
 {
 
+environment.gnome.excludePackages = with pkgs; [
+	gnome.cheese
+	gnome-connections
+	gnome.gnome-calculator
+	geany
+	gnome.geary
+	gnome.totem
+	gnome-photos
+	gnome.simple-scan
+	gnome.gnome-terminal
+	gnome.gnome-system-monitor
+	gnome.gnome-notes
+	gnome.gnome-music
+	gnome.gnome-maps
+	gnome-tour
+];
+
 environment.systemPackages = with pkgs; [
-  gnomeExtensions.appindicator
+
+	gnomeExtensions.appindicator
 	gnomeExtensions.compact-top-bar
 	gnomeExtensions.gtile
 	gnomeExtensions.dash-to-panel
@@ -11,28 +29,9 @@ environment.systemPackages = with pkgs; [
 	gnome.gnome-tweaks
 	gnomeExtensions.arcmenu
 	gnomeExtensions.gesture-improvements
-	gnomeExtensions.blur-my-shell
-	gnomeExtensions.vitals
-	gnomeExtensions.just-perfection
 ];
 
-environment.gnome.excludePackages = with pkgs; [
-gnome.cheese
-gnome-connections
-gnome.gnome-calculator
-geany
-gnome.totem
-gnome-photos
-gnome.simple-scan
-gnome.gnome-terminal
-gnome.gnome-system-monitor
-gnome.gnome-notes
-gnome.gnome-music
-gnome.gnome-maps
-gnome-tour
-];
+services.gnome.gnome-remote-desktop.enable = true;
 
-  # Gnome RD Services
-  services.gnome.gnome-remote-desktop.enable = true;
 
 }
