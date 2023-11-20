@@ -3,8 +3,9 @@
 {
 environment.systemPackages = with pkgs; [
 	bottom
+	gcc
 	gdu
-	git
+	gitFull
 	lazygit
 	nerdfonts
 	nodejs_18
@@ -12,6 +13,7 @@ environment.systemPackages = with pkgs; [
 	ripgrep
 	neovim
 	wl-clipboard
+	xclip
 ];
 
 }

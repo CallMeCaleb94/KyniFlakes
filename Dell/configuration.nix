@@ -95,8 +95,9 @@
       thunderbird
       remmina
       sakura
+      vscod-fhs
     ];
-    shell = "/nix/store/1iz6178ar7d15sgr3lw5l7r7g8s1m7v3-system-path/bin/fish";
+    shell = "${pkgs.fish}/bin/fish";
   };
 
   programs.fish.enable = true;
@@ -115,6 +116,7 @@
    programs.gnupg.agent = {
      enable = true;
      enableSSHSupport = true;
+     pinentryFlavor = "gnome3";
    };
  
   # List services that you want to enable:
@@ -134,6 +136,13 @@
     enable = true;
     channel = "https://nixos.org/channels/nixos-23.05"; 
   };
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "-d";
+    persistent = true;
+  }
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

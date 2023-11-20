@@ -7,6 +7,7 @@ environment.gnome.excludePackages = with pkgs; [
 	gnome-connections
 	gnome.gnome-calculator
 	geany
+	gnome.geary
 	gnome.totem
 	gnome-photos
 	gnome.simple-scan
