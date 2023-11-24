@@ -9,6 +9,7 @@ nixpkgs.config.packageOverrides = pkgs: {
   };
 
 environment.systemPackages = with pkgs; [
-   	nur.repos.kira-bruneau.pokemmo-installer
+  nur.repos.kira-bruneau.pokemmo-installer
+  #nur.repos.iagocq.ultimmc 
 ];
 }

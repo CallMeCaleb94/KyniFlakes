@@ -1,33 +1,30 @@
 { pkgs, config, libs, ... }:
 
+let
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
+in
 {
 
 users.users.cpb.isNormalUser = true;
 home-manager.users.cpb = { pkgs, ... }: {
   home.packages = [ pkgs.cowsay ];
-  programs.bash.enable = true;
+
   programs.home-manager = {
-  enable = true;
+    enable = true;
 
   };
   
- wayland.windowManager.sway = {
-    enable = true;
-    config = rec {
-      assigns = {
-        "1: web" = [{ class = "^Firefox$"; }]; 
-      };
-      modifier = "Mod4";
-      # Use kitty as default terminal
-      terminal = "sakura"; 
-      startup = [
-        # Launch Firefox on start
-        {command = "firefox";}
-      ]; 
+programs.git = {
+  enable = true;
+  userName = "CallMeCaleb94";
+  userEmail = "calebcodes94@gmail.com";
+  lfs.enable = true;
+  extraConfig = {
+      credential.helper = "${
+          pkgs.git.override { withLibsecret = true; }
+        }/bin/git-credential-libsecret";
     };
-  };
-
-
+};
 
   # The state version is required and should stay at the version you
   # originally installed.

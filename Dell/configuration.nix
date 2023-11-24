@@ -11,8 +11,10 @@
       ./neovim.nix
       ./virtual.nix
       ./nur.nix
-      #./home.nix 
-      #<home-manager/nixos>
+      ./home.nix 
+      <home-manager/nixos>
+      ./steam.nix
+      ./xfce4.nix
     ];
 
   # Bootloader.
@@ -91,15 +93,18 @@
     packages = with pkgs; [
       bitwarden
       firefox
-      fish
+      fish 
       thunderbird
       remmina
       sakura
-      vscod-fhs
+      vscode-fhs
     ];
     shell = "${pkgs.fish}/bin/fish";
   };
+  # This enables flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # This enables fish
   programs.fish.enable = true;
 
   # Allow unfree packages
@@ -108,6 +113,15 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+   fishPlugins.done
+   fishPlugins.fzf-fish
+   fishPlugins.forgit
+   fishPlugins.hydro
+   fzf
+   fishPlugins.grc
+   grc
+   prismlauncher
+   jdk17
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -127,22 +141,28 @@
   # Open ports in the firewall.
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 22 80 ];
-    allowedUDPPorts = [ 3389 22 80 ];
+    allowedTCPPorts = [ 3389 22 80 ];
+    allowedUDPPorts = [ 5900 3389 22 80 ];
   };
 
   # AutoUpgrade
   system.autoUpgrade = {
     enable = true;
-    channel = "https://nixos.org/channels/nixos-23.05"; 
+    channel = "https://nixos.org/channels/nixos-unstable"; 
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "-d";
-    persistent = true;
-  }
+  # Automatic Garbage Collection
+  nix.gc = { automatic = true;
+  # Enable the automatic garbage collector 
+  dates = "weekly"; 
+  # When to run the garbage collector 
+  options = "-d"; 
+  # Arguments to pass to nix-collect-garbage
+  persistent = true;
+  };
+  
+  # Optimisation of nix store
+  nix.optimise.automatic = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
