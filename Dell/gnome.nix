@@ -29,7 +29,9 @@ environment.systemPackages = with pkgs; [
 	gnome.gnome-tweaks
 	gnomeExtensions.arcmenu
 	gnomeExtensions.gesture-improvements
-	gnomeExtensions.paperwm
+	#gnomeExtensions.paperwm
+	gnomeExtensions.just-perfection
+	gnomeExtensions.vitals
 ];
 
 services.gnome.gnome-remote-desktop.enable = true;
