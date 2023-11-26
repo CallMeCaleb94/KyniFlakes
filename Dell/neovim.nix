@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-environment.systemPackages = with pkgs; [
+environment.systemPackages = with pkgs;  [
 	bottom
 	gcc
 	gdu
@@ -13,7 +13,5 @@ environment.systemPackages = with pkgs; [
 	ripgrep
 	neovim
 	wl-clipboard
-	xclip
-];
-
+	];
 }
