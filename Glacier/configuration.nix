@@ -88,7 +88,7 @@
   users.users.cpb = {
     isNormalUser = true;
     description = "Caleb P. Bradley";
-    extraGroups = [ "docker" "networkmanager" "wheel" "video" ];
+    extraGroups = [ "docker" "networkmanager" "wheel" "video" "render" ];
     packages = with pkgs; [
       bitwarden
       firefox
