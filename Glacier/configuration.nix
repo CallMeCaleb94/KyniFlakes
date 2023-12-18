@@ -11,7 +11,9 @@
       ./neovim.nix
       ./virtual.nix
       ./nur.nix
+      ./nvidia.nix
       ./steam.nix
+      #./vpn.nix
       #./home.nix 
       #<home-manager/nixos>
     ];
@@ -88,19 +90,23 @@
   users.users.cpb = {
     isNormalUser = true;
     description = "Caleb P. Bradley";
-    extraGroups = [ "docker" "networkmanager" "wheel" "video" "render" ];
+    extraGroups = [ "docker" "networkmanager" "wheel" "video" ];
     packages = with pkgs; [
       bitwarden
+      distrobox
       firefox
       fish
       heroic
       prismlauncher
       jdk17
+      obsidian
+      qemu_kvm
+      qemu-utils
       thunderbird
       remmina
       runelite
       sakura
-      #vscode-fhs
+      vscode-fhs
       ];
       shell = "${pkgs.fish}/bin/fish";
     };
@@ -108,7 +114,12 @@
   programs.fish.enable = true;
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+      "electron-25.9.0"
+    ];
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -139,7 +150,7 @@
   # AutoUpgrade
   system.autoUpgrade = {
     enable = true;
-    channel = "https://nixos.org/channels/nixos-23.05"; 
+    channel = "https://nixos.org/channels/nixos-23.11"; 
   };
 
   nix.gc = {
