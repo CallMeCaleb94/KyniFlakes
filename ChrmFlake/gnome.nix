@@ -28,7 +28,7 @@ environment.systemPackages = with pkgs; [
 	gnomeExtensions.tray-icons-reloaded
 	gnome.gnome-tweaks
 	gnomeExtensions.arcmenu
-	gnomeExtensions.gesture-improvements
+	#gnomeExtensions.gesture-improvements
 ];
 
 services.gnome.gnome-remote-desktop.enable = true;

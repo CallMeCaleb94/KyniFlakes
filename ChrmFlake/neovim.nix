@@ -4,8 +4,7 @@
 environment.systemPackages = with pkgs; [
   	bottom
 	gcc
-	gdu
-	gitFull
+	gdu	
 	lazygit
 	nerdfonts
 	neovim

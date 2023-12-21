@@ -10,7 +10,7 @@
       ./hardware-configuration.nix
       ./gnome.nix
       ./neovim.nix
-      ./nur.nix
+      #./nur.nix
       ./steam.nix
       ./virtual.nix
     ];
@@ -19,7 +19,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "ChrmFlake"; # Define your hostname.
+  boot.isContainer = false;
+  
+  networking.hostName = "chrmflake"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -84,15 +86,17 @@
   # services.xserver.libinput.enable = true;
   
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.kyni = {
+  users.users.cpb = {
     isNormalUser = true;
     description = "Caleb P. Bradley";
-    extraGroups = [ "docker " "networkmanager" "wheel" ];
+    extraGroups = [ "adbusers" "docker " "networkmanager" "wheel" ];
     packages = with pkgs; [
-	bitwarden
-	fish
-	firefox
-	thunderbird
+	    bitwarden
+	    fish
+	    firefox
+	    gitFull
+	    lsd
+	    thunderbird
     ];
     shell = "${pkgs.fish}/bin/fish";
   };
@@ -100,18 +104,24 @@
   # Enable fish
   programs.fish.enable = true;
 
+  # Enble ADB
+  programs.adb.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
 # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-	curl
-	obsidian
-	sakura
-	remmina
-	wget
-  vscode-fhs
+	  curl
+	  distrobox
+	  obsidian
+	  qemu
+	  sakura
+	  remmina
+	  spotify
+	  wget
+    vscode-fhs
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -120,7 +130,7 @@
   programs.gnupg.agent = {
  	  enable = true;
 	  enableSSHSupport = true;
-    pinentryFlavor = "gnome3"
+    pinentryFlavor = "gnome3";
    };
 
   # List services that you want to enable:
@@ -135,18 +145,30 @@
   allowedTCPPorts = [ 22 80]; };
 
   # AutoUpgrade
-  system.autoUpgrade = {
-    enable = true;
-    channel = "https://nixos.org/channels/nixos-unstable";
+#  system.autoUpgrade = {
+ #   enable = true;
+  #  channel = "https://nixos.org/channels/nixos-23.11";
+  #};
+
+  nixpkgs.config.permittedInsecurePackages = [
+                "electron-25.9.0"
+              ];
+
+  nix = {
+  package = pkgs.nixFlakes;
+  settings = {
+    experimental-features = "nix-command flakes";
+    auto-optimise-store = true;
+    };
   };
 
   # Automatic Garbage Collection
   nix.gc = {
       automatic = true;
-      dates = "weekly"
-      options = "-d"
+      dates = "weekly";
+      options = "-d";
       persistent = true;
-  }
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -154,6 +176,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 
 }
