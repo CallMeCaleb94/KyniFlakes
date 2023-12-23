@@ -10,7 +10,7 @@
       ./gnome.nix
       ./neovim.nix
       ./virtual.nix
-      ./nur.nix
+      #./nur.nix
       ./nvidia.nix
       ./steam.nix
       #./vpn.nix
@@ -159,6 +159,15 @@
     options = "-d";
     persistent = true;
   };
+
+    nix = {
+  package = pkgs.nixFlakes;
+  settings = {
+    experimental-features = "nix-command flakes";
+    auto-optimise-store = true;
+    };
+  };
+
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
