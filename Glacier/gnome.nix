@@ -17,7 +17,7 @@ environment.gnome.excludePackages = with pkgs.gnome; [
 	gnome-calculator
 	gnome-characters 
 	gnome-contacts
-    	gnome-font-viewer
+  gnome-font-viewer
 	gnome-logs
 	gnome-maps
 	gnome-music
@@ -30,9 +30,12 @@ environment.gnome.excludePackages = with pkgs.gnome; [
 ];
 
 environment.systemPackages = with pkgs; [
-
 	gnomeExtensions.appindicator
+	gnomeExtensions.blur-my-shell
+	gnomeExtensions.burn-my-windows
 	gnomeExtensions.compact-top-bar
+	gnomeExtensions.custom-accent-colors
+	gradience
 	gnomeExtensions.gtile
 	gnomeExtensions.dash-to-panel
 	gnomeExtensions.tray-icons-reloaded
@@ -41,6 +44,7 @@ environment.systemPackages = with pkgs; [
 	gnomeExtensions.gesture-improvements
 	#gnomeExtensions.paperwm
 	gnomeExtensions.just-perfection
+	gnomeExtensions.rounded-window-corners
 	gnomeExtensions.vitals
 ];
 
