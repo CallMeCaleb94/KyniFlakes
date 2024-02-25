@@ -2,23 +2,26 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
-    [ ./hardware-configuration.nix
-      ../modules/gnome.nix
-      ../modules/neovim.nix
-      ../modules/virtual.nix
-      ../modules/steam.nix
-      ../modules/xfce4.nix
+    [ # Include the results of the hardware scan.
+      ./arr.nix
+      ./hardware-configuration.nix
+      ./hypr.nix
+      inputs.home-manager.nixosModules.default
+      ./jellyfin.nix
+      ./neovim.nix
+      ./steam.nix
+      ./vaapi.nix
     ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "WrkBnch"; # Define your hostname.
+  networking.hostName = "puddle"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -49,9 +52,9 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # Enable the XFCE Desktop Environment.
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.desktopManager.xfce.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -60,7 +63,7 @@
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  #services.printing.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -86,80 +89,66 @@
   users.users.cpb = {
     isNormalUser = true;
     description = "Caleb P. Bradley";
-    extraGroups = [ "docker" "networkmanager" "wheel" "video" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      bitwarden
       firefox
-      fish 
       thunderbird
-      remmina
-      sakura
-      vscode-fhs
     ];
-    shell = "${pkgs.fish}/bin/fish";
   };
-  # This enables flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # This enables fish
-  programs.fish.enable = true;
+  home-manager = {
+  	#also pass inputs to home-manager modules
+	extraSpecialArgs = { inherit inputs; };
+	users = {
+		"cpb" = import ./home.nix;
+		};
+	};
+
+  # Enable automatic login for the user.
+  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.user = "cpb";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Nix experimental features
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-   fishPlugins.done
-   fishPlugins.fzf-fish
-   fishPlugins.forgit
-   fishPlugins.hydro
-   fzf
-   fishPlugins.grc
-   grc
-   prismlauncher
-   jdk17
+  	cool-retro-term
+	  gitFull
+    kitty 
+	  pavucontrol
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  # programs.mtr.enable = true;
+ # programs.mtr.enable = true;
    programs.gnupg.agent = {
      enable = true;
      enableSSHSupport = true;
-     pinentryFlavor = "gnome3";
    };
- 
+
   # List services that you want to enable:
-  security.polkit.enable = true;
+
   # Enable the OpenSSH daemon.
-   services.openssh.enable = true;
+   services = {
+	openssh.enable = true;
+	tailscale.enable = true;
+	};
+
+  # Enable zramSwap
+  zramSwap = {
+  	enable = true;
+	};
 
   # Open ports in the firewall.
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ 3389 22 80 ];
-    allowedUDPPorts = [ 5900 3389 22 80 ];
-  };
-
-  # AutoUpgrade
-  system.autoUpgrade = {
-    enable = true;
-    channel = "https://nixos.org/channels/nixos-unstable"; 
-  };
-
-  # Automatic Garbage Collection
-  nix.gc = { automatic = true;
-  # Enable the automatic garbage collector 
-  dates = "weekly"; 
-  # When to run the garbage collector 
-  options = "-d"; 
-  # Arguments to pass to nix-collect-garbage
-  persistent = true;
-  };
-  
-  # Optimisation of nix store
-  nix.optimise.automatic = true;
+   networking.firewall.allowedTCPPorts = [ 80 22 ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -167,6 +156,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 
 }
