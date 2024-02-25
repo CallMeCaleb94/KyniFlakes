@@ -7,21 +7,17 @@
 {
   imports =
     [ ./hardware-configuration.nix
-      ./gnome.nix
-      ./neovim.nix
-      ./virtual.nix
-      ./nur.nix
-      ./home.nix 
-      <home-manager/nixos>
-      ./steam.nix
-      ./xfce4.nix
+      ../modules/gnome.nix
+      ../modules/neovim.nix
+      ../modules/virtual.nix
+      ../modules/steam.nix
     ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "WrkBnch"; # Define your hostname.
+  networking.hostName = "Glacier"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -63,7 +59,7 @@
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  #services.printing.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -92,36 +88,36 @@
     extraGroups = [ "docker" "networkmanager" "wheel" "video" ];
     packages = with pkgs; [
       bitwarden
+      distrobox
       firefox
-      fish 
+      fish
+      prismlauncher
+      jdk17
+      obsidian
+      qemu_kvm
+      qemu-utils
       thunderbird
       remmina
+      runelite
       sakura
       vscode-fhs
-    ];
-    shell = "${pkgs.fish}/bin/fish";
-  };
-  # This enables flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+      ];
+      shell = "${pkgs.fish}/bin/fish";
+    };
 
-  # This enables fish
   programs.fish.enable = true;
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+      "electron-25.9.0"
+    ];
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-   fishPlugins.done
-   fishPlugins.fzf-fish
-   fishPlugins.forgit
-   fishPlugins.hydro
-   fzf
-   fishPlugins.grc
-   grc
-   prismlauncher
-   jdk17
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -141,28 +137,30 @@
   # Open ports in the firewall.
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 3389 22 80 ];
-    allowedUDPPorts = [ 5900 3389 22 80 ];
+    allowedTCPPorts = [ 22 80 ];
+    allowedUDPPorts = [ 3389 22 80 ];
   };
 
   # AutoUpgrade
   system.autoUpgrade = {
     enable = true;
-    channel = "https://nixos.org/channels/nixos-unstable"; 
+    channel = "https://nixos.org/channels/nixos-23.11"; 
   };
 
-  # Automatic Garbage Collection
-  nix.gc = { automatic = true;
-  # Enable the automatic garbage collector 
-  dates = "weekly"; 
-  # When to run the garbage collector 
-  options = "-d"; 
-  # Arguments to pass to nix-collect-garbage
-  persistent = true;
+   nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "-d";
+      persistent = true;
+    };
+    package = pkgs.nixFlakes;
+    settings = {
+      experimental-features = "nix-command flakes repl-flake";
+      auto-optimise-store = true;
+      };
   };
-  
-  # Optimisation of nix store
-  nix.optimise.automatic = true;
+
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
